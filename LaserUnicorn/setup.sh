@@ -5,4 +5,3 @@ then
 else
     cp ./laserUnicorn.py $HOME/.local/bin/laserUnicorn
 fi
-a
