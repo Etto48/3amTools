@@ -129,6 +129,20 @@ fetchExit="_fini"
 if(len(sys.argv)>1):
     try:
         for i in range(len(sys.argv)-1):
+            if(sys.argv[i+1]=="-h" or sys.argv[i+1]=="--help"):
+                print(
+                    '''
+                    laserUnicorn [-f|--file filename] [--entry entrypoint] [--exit exitpoint] [-s|--skip skipPoint1,skipPoint2,... ] [-b|--break breakPoint1,breakPoint2,... ] [--no-call]
+
+                        --file:     specify wich binary to load
+                        --entry:    set the entry point
+                        --exit:     set the last address to be run
+                        --skip:     set all address to not execute
+                        --break:    set breakpoints
+                        --no-call:  skips all call instruction
+                    '''
+                    )
+                exit(0)
             if(sys.argv[i+1]=="-f" or sys.argv[i+1]=="--file"):
                 fname=sys.argv[i+2]
             if(sys.argv[i+1]=="--entry"):
@@ -203,11 +217,11 @@ mu = Uc(UC_ARCH_X86, UC_MODE_64)
       
 mu.mem_map(BASE,1024*1024)
 
-mu.mem_map(LIBC_ADDR,0x3F1000)
-mu.mem_write(LIBC_ADDR,read('/lib/x86_64-linux-gnu/libc-2.27.so'))
+#mu.mem_map(LIBC_ADDR,0x3F1000)
+#mu.mem_write(LIBC_ADDR,read('/lib/x86_64-linux-gnu/libc-2.27.so'))
 
-mu.mem_map(LD_ADDR,1024*1024)
-mu.mem_write(LIBC_ADDR,read('/lib/x86_64-linux-gnu/ld-2.27.so'))
+#mu.mem_map(LD_ADDR,1024*1024)
+#mu.mem_write(LIBC_ADDR,read('/lib/x86_64-linux-gnu/ld-2.27.so'))
 #WIP mu.mem_map(ARGV_LOC,1024*1024)
 mu.mem_map(STACK_ADDR, STACK_SIZE)  
 
