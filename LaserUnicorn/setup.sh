@@ -1,0 +1,1 @@
+cp ./laserUnicorn.py $HOME/.local/bin/laserUnicorn
