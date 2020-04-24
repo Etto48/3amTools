@@ -4,10 +4,12 @@ import sys,argparse
 
 parser=argparse.ArgumentParser()
 
-parser.add_argument("--number","-n",required=True,help="Number to factorize",type=int)
+parser.add_argument("--number","-n",required=True,help="Number to factorize|N-th prime to calculate",type=int)
+parser.add_argument("--prime","-p",help="Calculate the -n N-th prime",type=bool,default=False)
 args=parser.parse_args(sys.argv[1:])
 
 n=args.number
+justPrime=args.prime
 
 pi=[2]
 
@@ -38,6 +40,13 @@ def factorize(num,pl):
             print(f"found a new factor: {f}")
             return [f]+factorize(num//f,pl)
         pl=addPrime(pl)
-    return []
+    return [num]
 
-print(factorize(n,pi))
+if justPrime==False:
+    print(factorize(n,pi))
+else:
+    while(len(pi)<n):
+        addPrime(pi)
+        print(f"{len(pi)/n*100:0.4f}%",end="\r",flush=True)
+    print()
+    print(pi[len(pi)-1])
