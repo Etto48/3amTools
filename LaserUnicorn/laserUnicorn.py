@@ -120,7 +120,6 @@ def hook_code(mu, address, size,user_data):
 ENTRY=0
 END=0
 
-
 #WIP argvc=[]
 manualAddress=False
 fetchEntry="_start"
